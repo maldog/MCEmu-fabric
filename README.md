@@ -1,23 +1,28 @@
-# deltatwoforce.mcemu.model.MCEmu
+# MCEmu
 
 Run emulators in Minecraft!
 
-## Installation
+![2022-05-02_19 53 53](https://user-images.githubusercontent.com/493908/166223486-5f2ee0b9-7c17-422d-953b-747ba1c6beb4.png)
+
+## Status
+
+just an incubation not a production! 
+
+## Requirements
 
  * minecraft 1.18.2
  * fabricmc
-
-Then you need to put the .jar into your mods folder. After opening the game with the mod installed once, you will see a new folder in your minecraft folder called "roms". Go into "roms" and put your NES roms into the "nes" folder. After you restart the game, you will see the roms as cartridges in the "deltatwoforce.mcemu.model.MCEmu: NES" creative category.
-
-## Building
-
-### Linux/Mac
-To build, run `./gradlew build` in the root directory of the project.
-### Windows
-To build, run `gradlew.bat build` using cmd in the root directory of the project.
+ * romz
+```shell
+$ mkdir $MINECRAFT_HOME/config/mcemu/roms/nes
+$ cp your_roms.nes ... $MINECRAFT_HOME/config/mcemu/roms/nes/
+```
 
 ## TODO
 
- * television entity renderer
+ * ~~television entity renderer~~
  * ~~console block renderer~~
  * save nes resource when not viewing
+ * multiple cartridges are not tested
+ * use a new cartridge and reset does not work now
+ * the nes emulator seems to run w/o wait
