@@ -72,8 +72,8 @@ public class MCEmu {
         g.drawString("No cartridge inserted", 8, 20);
         g.drawString("Get cartridges from your creative menu", 8, 40);
         g.drawString("or put roms into the folder if you haven't.", 8, 56);
-        g.drawString("ROM Folder: /.minecraft/roms/nes/", 8, 76);
-        g.setFont(g.getFont().deriveFont(64f));
+        g.drawString("ROM Folder: $MC/config/mcenu/roms/nes/", 8, 76);
+        g.setFont(g.getFont().deriveFont(48f));
         g.drawString("MCEmuMod", 8, 222);
     }
 }
