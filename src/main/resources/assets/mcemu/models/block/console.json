@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+    "parent": "minecraft:block/cut_copper_slab",
 	"textures": {
 		"0": "mcemu:blocks/nesfront",
 		"1": "mcemu:blocks/nesside",

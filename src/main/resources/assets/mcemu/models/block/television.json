@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "blocks/planks_big_oak",
-		"1": "blocks/iron_block",
-		"2": "blocks/hardened_clay_stained_black",
-		"particle": "blocks/planks_big_oak"
+		"0": "minecraft:block/dark_oak_planks",
+		"1": "minecraft:block/iron_block",
+		"2": "minecraft:block/black_stained_glass",
+		"particle": "minecraft:block/dark_oak_planks"
 	},
 	"elements": [
 		{
@@ -125,5 +125,5 @@
             "translation": [ 0, 0, 0 ],
             "scale": [ 0.40, 0.40, 0.40 ]
         }
-    }
+	}
 }

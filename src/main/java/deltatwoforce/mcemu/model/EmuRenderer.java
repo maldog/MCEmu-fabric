@@ -1,36 +1,25 @@
-package deltatwoforce.mcemu.nes;
+package deltatwoforce.mcemu.model;
 
-import java.awt.Frame;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.util.HashMap;
-
+import java.nio.file.Paths;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import com.google.common.collect.ImmutableMap;
-
-import deltatwoforce.mcemu.MCEmu;
+import deltatwoforce.mcemu.MCEmuMod;
+import jp.tanakh.bjne.nes.Nes;
 import jp.tanakh.bjne.nes.Renderer;
-import jp.tanakh.bjne.nes.Renderer.InputInfo;
-import jp.tanakh.bjne.nes.Renderer.ScreenInfo;
-import jp.tanakh.bjne.nes.Renderer.SoundInfo;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class MCEmuNESRenderer implements Renderer{
+
+public class EmuRenderer implements Renderer {
 	private static final int SCREEN_WIDTH = 256;
 	private static final int SCREEN_HEIGHT = 240;
 
@@ -44,14 +33,22 @@ public class MCEmuNESRenderer implements Renderer{
 
 	private ScreenInfo scri = new ScreenInfo();
 	private SoundInfo sndi = new SoundInfo();
-	private InputInfo inpi = new InputInfo();
+	public static InputInfo inpi = new InputInfo();
+
+	static {
+		inpi.buf = new int[16];
+	}
 
 	private BufferedImage image = new BufferedImage(SCREEN_WIDTH,
 			SCREEN_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 
+	public BufferedImage getImage() {
+		return image;
+	}
+
 	private int lineBufferSize;
 
-	public MCEmuNESRenderer() throws LineUnavailableException {
+	public EmuRenderer() {
 		AudioFormat format = new AudioFormat(SAMPLE_RATE, BPS, CHANNELS, true,
 				false);
 		DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
@@ -63,13 +60,11 @@ public class MCEmuNESRenderer implements Renderer{
 		sndi.ch = 2;
 		sndi.freq = SAMPLE_RATE;
 		sndi.sample = bufSamples;
-
-		inpi.buf = new int[16];
 	}
 
 	@Override
 	public void outputMessage(String msg) {
-		System.out.println(msg);
+		MCEmuMod.logger.debug(msg);
 	}
 
 	@Override
@@ -94,8 +89,6 @@ public class MCEmuNESRenderer implements Renderer{
 			bgr[i * 3 + 1] = info.buf[i * 3 + 1];
 			bgr[i * 3 + 2] = info.buf[i * 3 + 0];
 		}
-		
-		MCEmu.BUFIMG = image;
 	}
 
 	@Override
@@ -121,23 +114,30 @@ public class MCEmuNESRenderer implements Renderer{
 		return 1;
 	}
 
-	static final int[][] keyDef = {
-			{ MCEmu.P1NES_A.getKeyCode(), MCEmu.P1NES_B.getKeyCode(), MCEmu.P1NES_SELECT.getKeyCode(),
-					MCEmu.P1NES_START.getKeyCode(), MCEmu.P1NES_UP.getKeyCode(), MCEmu.P1NES_DOWN.getKeyCode(),
-					MCEmu.P1NES_LEFT.getKeyCode(), MCEmu.P1NES_RIGHT.getKeyCode(), },
-			{ MCEmu.P2NES_A.getKeyCode(), MCEmu.P2NES_B.getKeyCode(), MCEmu.P2NES_SELECT.getKeyCode(),
-						MCEmu.P2NES_START.getKeyCode(), MCEmu.P2NES_UP.getKeyCode(), MCEmu.P2NES_DOWN.getKeyCode(),
-						MCEmu.P2NES_LEFT.getKeyCode(), MCEmu.P2NES_RIGHT.getKeyCode(), } };
-
-	public void onKey(int keyCode, boolean press) {
-		for (int i = 0; i < 2; i++)
-			for (int j = 0; j < 8; j++)
-				if (keyCode == keyDef[i][j])
-					inpi.buf[i * 8 + j] = (press ? 1 : 0);
-	}
-
 	@Override
 	public InputInfo requestInput(int padCount, int buttonCount) {
 		return inpi;
+	}
+
+	public static void main(String[] args) throws Exception {
+		EmuRenderer renderer = new EmuRenderer();
+		Nes nes = new Nes(renderer);
+		nes.load(Paths.get(args[0]).toAbsolutePath().toString());
+
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel() {
+			public void paint(Graphics g) {
+				g.drawImage(renderer.image, 0, 0, null);
+			}
+		};
+
+		ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+		executorService.scheduleAtFixedRate(() -> { nes.execFrame(); panel.repaint(); }, 0, (int) (1000f / FPS), TimeUnit.MICROSECONDS);
+
+		panel.setPreferredSize(new Dimension(renderer.image.getWidth(), renderer.image.getHeight()));
+		frame.getContentPane().add(panel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
 	}
 }

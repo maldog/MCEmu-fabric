@@ -96,7 +96,7 @@ public class Regs {
 				int padNum = adr - 0x4016;
 				int readPos = joypadReadPos[padNum];
 				byte ret;
-				if (readPos < 8) // ƒpƒbƒhƒf[ƒ^
+				if (readPos < 8) // ãƒ‘ãƒƒãƒ‰ãƒ‡ãƒ¼ã‚¿
 					ret = (byte) (padDat[padNum][readPos] ? 1 : 0);
 				else if (readPos < 16) // Ignored
 					ret = 0;
@@ -158,7 +158,7 @@ public class Regs {
 			case 0x4016: // Joypad #1 (RW)
 			{
 				boolean newval = (dat & 1) != 0;
-				if (joypadStrobe && !newval) // ‚½‚¿‰º‚èƒGƒbƒW‚ÅƒŠƒZƒbƒg
+				if (joypadStrobe && !newval) // ãŸã¡ä¸‹ã‚Šã‚¨ãƒƒã‚¸ã§ãƒªã‚»ãƒƒãƒˆ
 					joypadReadPos[0] = joypadReadPos[1] = 0;
 				joypadStrobe = newval;
 			}

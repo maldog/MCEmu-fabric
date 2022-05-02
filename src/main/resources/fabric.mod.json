@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "mcemu",
+  "version": "${version}",
+
+  "name": "MCEmu",
+  "description": "NES Emulator",
+  "authors": [
+    "DeltaTwoForce", "unjammer"
+  ],
+  "contact": {
+    "homepage": "https://github.com/umjammer/MCEmu",
+    "sources": "https://github.com/tanakh/bjne-java [NES EMULATOR]"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/mcemu/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "deltatwoforce.mcemu.MCEmuMod"
+    ],
+    "client": [
+      "deltatwoforce.mcemu.MCEmuClientMod"
+    ]
+  },
+  "mixins": [
+    "mcemu.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.18.2",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
