@@ -22,7 +22,6 @@ public class MCEmuClientMod implements ClientModInitializer {
         BlockEntityRendererRegistry.register(MCEmuMod.televisionEntityType, TelevisionEntityRenderer::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(MCEmuMod.consoleBlock, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MCEmuMod.consoleBlock, RenderLayer.getCutout());
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             for (int i = 0; i < 2; i++)

@@ -56,7 +56,7 @@ public class Nes {
 		ppu.reset();
 		regs.reset();
 
-		System.out.println("Reset virtual machine ...");
+		renderer.outputMessage("Reset virtual machine ...");
 	}
 
 	public void execFrame() {
@@ -136,6 +136,10 @@ public class Nes {
 
 	public Mapper getMapper() {
 		return mapper;
+	}
+
+	public Renderer getRenderer() {
+		return renderer;
 	}
 
 	private Rom rom;

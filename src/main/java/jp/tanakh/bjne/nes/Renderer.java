@@ -1,7 +1,7 @@
 package jp.tanakh.bjne.nes;
 
 public interface Renderer {
-	public class ScreenInfo {
+	class ScreenInfo {
 		public byte[] buf;
 		public int width;
 		public int height;
@@ -9,7 +9,7 @@ public interface Renderer {
 		public int bpp;
 	}
 
-	public class SoundInfo {
+	class SoundInfo {
 		public byte[] buf;
 		public int freq;
 		public int bps;
@@ -17,19 +17,19 @@ public interface Renderer {
 		public int sample;
 	}
 
-	public class InputInfo {
+	class InputInfo {
 		public int[] buf;
 	}
 
-	public ScreenInfo requestScreen(int width, int height);
+	ScreenInfo requestScreen(int width, int height);
 
-	public SoundInfo requestSound();
+	SoundInfo requestSound();
 
-	public InputInfo requestInput(int padCount, int buttonCount);
+	InputInfo requestInput(int padCount, int buttonCount);
 
-	public void outputScreen(ScreenInfo info);
+	void outputScreen(ScreenInfo info);
 
-	public void outputSound(SoundInfo info);
+	void outputSound(SoundInfo info);
 
-	public void outputMessage(String msg);
+	void outputMessage(String msg);
 }

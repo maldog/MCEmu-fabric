@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Rom {
+	Nes nes;
 	public Rom(Nes n) {
+		this.nes = n;
 	}
 
 	public void reset() {
@@ -54,15 +56,15 @@ public class Rom {
 		if (chrSize > 0)
 			System.arraycopy(dat, 16 + romSize, chrDat, 0, chrSize);
 
-		System.out.printf("Cartridge information:\n");
-		System.out.printf("%d KB rom, %d KB vrom\n", romSize / 1024,
-				chrSize / 1024);
-		System.out.printf("mapper #%d\n", mapper);
-		System.out.printf("%s mirroring\n",
-				mirroring == MirrorType.VERTICAL ? "vertical" : "holizontal");
-		System.out.printf("sram        : %s\n", sramEnable ? "Y" : "N");
-		System.out.printf("trainer     : %s\n", trainerEnable ? "Y" : "N");
-		System.out.printf("four screen : %s\n", fourScreen ? "Y" : "N");
+		nes.getRenderer().outputMessage("Cartridge information:");
+		nes.getRenderer().outputMessage(String.format("%d KB rom, %d KB vrom", romSize / 1024,
+				chrSize / 1024));
+		nes.getRenderer().outputMessage(String.format("mapper #%d", mapper));
+		nes.getRenderer().outputMessage(String.format("%s mirroring",
+				mirroring == MirrorType.VERTICAL ? "vertical" : "holizontal"));
+		nes.getRenderer().outputMessage(String.format("sram        : %s", sramEnable ? "Y" : "N"));
+		nes.getRenderer().outputMessage(String.format("trainer     : %s", trainerEnable ? "Y" : "N"));
+		nes.getRenderer().outputMessage(String.format("four screen : %s", fourScreen ? "Y" : "N"));
 	}
 
 	public void saveSram(String fname) {
