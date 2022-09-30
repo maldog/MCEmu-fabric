@@ -1,3 +1,6 @@
+[![Fabric](https://img.shields.io/badge/Mod_Loader-Fabric-blue)](https://fabricmc.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.18.2-green)](https://www.minecraft.net/)
+
 # MCEmu
 
 Run emulators in Minecraft!
@@ -7,6 +10,9 @@ Run emulators in Minecraft!
 ## Status
 
 just an incubation not a production! 
+
+ * this mod is a showcase for create dynamic 2d rendering system
+ * `BufferdImage` to `NativeImage`
 
 ## Requirements
 
@@ -24,5 +30,5 @@ $ cp your_roms.nes ... $MINECRAFT_HOME/config/mcemu/roms/nes/
  * ~~console block renderer~~
  * save nes resource when not viewing
  * multiple cartridges are not tested
- * use a new cartridge and reset does not work now
+ * using a new cartridge and reset does not work now
  * the nes emulator seems to run w/o wait
