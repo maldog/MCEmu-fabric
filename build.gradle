@@ -54,6 +54,10 @@ jar {
     }
 }
 
+assemble {
+    version += "-${project.minecraft_version}-release"
+}
+
 // configure the maven publication
 publishing {
     publications {
