@@ -9,11 +9,12 @@ import deltatwoforce.mcemu.minecraft.ConsoleBlock;
 import deltatwoforce.mcemu.minecraft.TelevisionBlock;
 import deltatwoforce.mcemu.minecraft.TelevisionEntity;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.impl.itemgroup.FabricItemGroupBuilderImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
@@ -22,8 +23,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -64,12 +66,16 @@ public class MCEmuMod implements ModInitializer {
 	// LESSON: w/o #nonOpaque() makes block super dark
     public static final TelevisionBlock televisionBlock = new TelevisionBlock(FabricBlockSettings.of(Material.WOOD).nonOpaque());
 
-	public static final ItemGroup tabNES = FabricItemGroupBuilder.build(
-			new Identifier(MODID, "nes"),
-			() -> new ItemStack(Items.WHITE_STAINED_GLASS));
+	public static final BlockItem consoleItem = new BlockItem(consoleBlock, new FabricItemSettings());
+	public static final BlockItem televisionItem = new BlockItem(televisionBlock, new FabricItemSettings());
 
-	public static final BlockItem consoleItem = new BlockItem(consoleBlock, new FabricItemSettings().group(tabNES));
-	public static final BlockItem televisionItem = new BlockItem(televisionBlock, new FabricItemSettings().group(tabNES));
+	public static final ItemGroup tabNES = new FabricItemGroupBuilderImpl(new Identifier(MODID, "nes"))
+			.icon(() -> new ItemStack(Items.WHITE_STAINED_GLASS))
+			.entries((context, entries) -> {
+				entries.add(consoleItem);
+				entries.add(televisionItem);
+			})
+			.build();
 
 	private static final String ENTITY_TYPE_ID = MODID + ":television_entity";
 
@@ -84,20 +90,21 @@ public class MCEmuMod implements ModInitializer {
 			}
 		}
 
-		Registry.register(Registry.BLOCK, new Identifier(MODID, "console"), consoleBlock);
-		Registry.register(Registry.ITEM, new Identifier(MODID, "console"), consoleItem);
-		Registry.register(Registry.BLOCK, new Identifier(MODID, "television"), televisionBlock);
-		Registry.register(Registry.ITEM, new Identifier(MODID, "television"), televisionItem);
+		Registry.register(Registries.BLOCK, new Identifier(MODID, "console"), consoleBlock);
+		Registry.register(Registries.ITEM, new Identifier(MODID, "console"), consoleItem);
+		Registry.register(Registries.BLOCK, new Identifier(MODID, "television"), televisionBlock);
+		Registry.register(Registries.ITEM, new Identifier(MODID, "television"), televisionItem);
 
-		Registry.register(Registry.BLOCK_ENTITY_TYPE, ENTITY_TYPE_ID, televisionEntityType);
+		Registry.register(Registries.BLOCK_ENTITY_TYPE, ENTITY_TYPE_ID, televisionEntityType);
 
 		try {
 			Path nesroms = FabricLoader.getInstance().getConfigDir().resolve(MODID).resolve("roms/nes");
 			Files.createDirectories(nesroms);
 logger.info("loading NES roms from " + nesroms + " ...");
 			Files.list(nesroms).forEach(f -> {
-				CartridgeItem item = new CartridgeItem(new FabricItemSettings().group(ItemGroup.MISC), f);
-				Registry.register(Registry.ITEM, new Identifier(MODID, "cartridge"), item);
+				CartridgeItem item = new CartridgeItem(new FabricItemSettings(), f);
+				ItemGroupEvents.modifyEntriesEvent(tabNES).register(entries -> entries.add(item));
+				Registry.register(Registries.ITEM, new Identifier(MODID, "cartridge"), item);
 logger.info("loaded " + item.rom);
 			});
 		} catch (IOException e) {

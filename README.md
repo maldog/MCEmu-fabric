@@ -1,5 +1,6 @@
 [![Fabric](https://img.shields.io/badge/Mod_Loader-Fabric-blue)](https://fabricmc.net/)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.18.2-green)](https://www.minecraft.net/)
+![Java](https://img.shields.io/badge/Java-17-b07219)
 
 # MCEmu
 
@@ -9,10 +10,10 @@ Run emulators in Minecraft!
 
 ## Status
 
-just an incubation not a production! 
+🐣 just an incubation not a production! 
 
  * this mod is a showcase for create dynamic 2d rendering system
- * `BufferdImage` to `NativeImage`
+ * `BufferdImage` to `NativeImage` conversion
 
 ## Requirements
 

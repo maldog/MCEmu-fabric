@@ -7,8 +7,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Matrix4f;
 
 import static deltatwoforce.mcemu.MCEmuClientMod.model;
 
@@ -25,20 +25,20 @@ public class TelevisionEntityRenderer implements BlockEntityRenderer<TelevisionE
     public void render(TelevisionEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 
         matrixStack.push();
-        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F));
+        matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180.0F));
 
         Direction direction = entity.getHorizontalFacing();
         if (direction == Direction.EAST) {
-            matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90 * entity.getHorizontalFacing().getHorizontal()));
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90 * entity.getHorizontalFacing().getHorizontal()));
             matrixStack.translate(-1 + 0.0625, -1 + 0.0625, -1 + 0.0625);
         } else if (direction == Direction.WEST) {
-            matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90 * entity.getHorizontalFacing().getHorizontal()));
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90 * entity.getHorizontalFacing().getHorizontal()));
             matrixStack.translate(0.0625, -1 + 0.0625, 0.0625);
         } else if (direction == Direction.SOUTH) {
-            matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-180));
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-180));
             matrixStack.translate( 0.0625, -1 + 0.0625, -1 + 0.0625);
         } else if (direction == Direction.NORTH) {
-            matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180 * entity.getHorizontalFacing().getHorizontal()));
+            matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 * entity.getHorizontalFacing().getHorizontal()));
             matrixStack.translate(-1 + 0.0625, -1 + 0.0625, 0.0625);
         }
 
