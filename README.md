@@ -1,5 +1,5 @@
 [![Fabric](https://img.shields.io/badge/Mod_Loader-Fabric-blue)](https://fabricmc.net/)
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.18.2-green)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.19.4-green)](https://www.minecraft.net/)
 ![Java](https://img.shields.io/badge/Java-17-b07219)
 
 # MCEmu
@@ -17,7 +17,7 @@ Run emulators in Minecraft!
 
 ## Requirements
 
- * minecraft 1.18.2
+ * minecraft 1.19.4
  * fabricmc
  * romz
 ```shell
