@@ -15,6 +15,7 @@ Updates for 1.19.4
  * Multiple carts supported (up to 64)
  * Brightness of TV stays at maximum despite world time
  * General usability improvements
+ * Change to make the speed usable, it was too fast.
 
 ## Requirements
 
@@ -30,7 +31,14 @@ Updates for 1.19.4
  * Add up to 64 roms within the folder above
  * In creative inventory, you may find the TV, Console and carts in the "MCEmu NES Games" group.
 
-
-
 ## Usage
-* TODO
+ * From the McEmu NES menu, add the TV
+ * Add the Console - you need it to load carts
+ * Equip a cart and use it (right-click) the console with it. That will load the game onto the TV
+ * Controls: Go to Controls -> Key Binds -> scroll to section "MCEmu NES Controls" (No keys mapped by default)
+
+
+## Things that need doing
+ * Sound. There is no sound.
+ * Saving. There is no save support whatsoever. I think...
+ * Upgrading to a newer version of Minecraft. 1.19.4 is pretty old in 2025
