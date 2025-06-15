@@ -10,25 +10,60 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+
+import net.fabricmc.loader.api.FabricLoader;
+
 
 public class CartridgeItem extends Item {
 	private String name;
 	public Path rom;
 
-	public CartridgeItem(Settings settings, Path rom) {
-		super(settings);
-		name = rom.getFileName().toString();
-		int i = name.lastIndexOf('.');
-		if (i > 0) {
-			name = name.replace(name.substring(i), "");
-		}
+	private final String slotId; // e.g., "01", "02", etc.
 
-		this.rom = rom;
+	public CartridgeItem(Settings settings, Path rom, String slotId) {
+    		super(settings);
+		this.rom = rom; // <- This is missing and causing the crash!
+    		this.slotId = slotId;
+    		String filename = rom.getFileName().toString();
+    		int i = filename.lastIndexOf('.');
+    		if (i > 0) {
+        		filename = filename.substring(0, i);
+    		}
+    		this.name = filename;
 	}
 
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(Text.of("A ROM File for the NES. " + name));
+		tooltip.add(Text.of("NES Game: " + name));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
+
+	@Override
+	public String getTranslationKey() {
+ 	   return "item.mcemu.cart" + slotId;
+	}
+
+	@Override
+	public ItemStack getDefaultStack() {
+    		ItemStack stack = new ItemStack(this);
+    		if (rom != null) {
+        		stack.getOrCreateNbt().putString("rom_filename", rom.getFileName().toString());
+    		}
+    		return stack;
+	}
+
+	public static Path getRomPath(ItemStack stack) {
+    		if (stack.getItem() instanceof CartridgeItem) {
+        		String filename = stack.getOrCreateNbt().getString("rom_filename");
+        		if (filename != null && !filename.isEmpty()) {
+            		return FabricLoader.getInstance().getConfigDir()
+                		.resolve("mcemu/roms/nes")
+                		.resolve(filename);
+        		}
+    		}
+    		return null;
+	}
+
+
 }

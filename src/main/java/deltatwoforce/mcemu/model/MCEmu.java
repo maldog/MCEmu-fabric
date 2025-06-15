@@ -33,7 +33,7 @@ public class MCEmu {
 
     public void start(Path path) {
         if (load(path)) {
-            f = executorService.scheduleAtFixedRate(nes::execFrame, 0, (int) (1000f / 60), TimeUnit.MICROSECONDS);
+            f = executorService.scheduleAtFixedRate(nes::execFrame, 0, (int)(1000f / 60), TimeUnit.MILLISECONDS);
         }
     }
 

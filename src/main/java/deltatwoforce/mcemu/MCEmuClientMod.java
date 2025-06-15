@@ -11,6 +11,14 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
+import net.minecraft.registry.Registries;
+
+import deltatwoforce.mcemu.minecraft.CartridgeItem;
+
 
 @Environment(EnvType.CLIENT)
 public class MCEmuClientMod implements ClientModInitializer {
@@ -30,5 +38,15 @@ public class MCEmuClientMod implements ClientModInitializer {
         });
 
         model = new MCEmu();
+
+	for (Item item : Registries.ITEM) {
+    		if (item instanceof CartridgeItem) {
+        		ModelPredicateProviderRegistry.register(
+            		item,
+            		new Identifier("always_one"),
+            		(stack, world, entity, seed) -> 1.0f
+        	);
+    	}
+}
     }
 }

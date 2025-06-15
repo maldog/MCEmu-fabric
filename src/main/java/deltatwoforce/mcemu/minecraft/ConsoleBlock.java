@@ -1,5 +1,7 @@
 package deltatwoforce.mcemu.minecraft;
 
+import java.nio.file.Path;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -33,15 +35,19 @@ logger.info("client: " + world.isClient());
 			ItemStack is = player.getMainHandStack();
 
 			if (is.getItem() instanceof CartridgeItem) {
-				CartridgeItem item = (CartridgeItem) is.getItem();
-logger.info("item: " + item.rom);
-				if (!model.isRunning()) {
-					model.start(item.rom);
-					logger.info("nes: started");
-				} else {
-					model.reset(item.rom);
-					logger.info("nes: restarted");
-				}
+    				java.nio.file.Path rom = CartridgeItem.getRomPath(is);
+    				logger.info("item: " + rom);
+    				if (rom != null) {
+        				if (!model.isRunning()) {
+            				model.start(rom);
+            				logger.info("nes: started");
+        			} else {
+            				model.reset(rom);
+            				logger.info("nes: restarted");
+        			}
+    				} else {
+        			logger.warn("ROM path not found for cartridge item: " + is);
+    				}
 			}
 		}
 

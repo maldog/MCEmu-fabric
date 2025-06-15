@@ -4,32 +4,33 @@
 
 # MCEmu
 
-Run emulators in Minecraft!
+NES emulator in Minecraft!
 
 ![2022-05-02_19 53 53](https://user-images.githubusercontent.com/493908/166223486-5f2ee0b9-7c17-422d-953b-747ba1c6beb4.png)
 
 ## Status
 
-🐣 just an incubation not a production! 
+Updates for 1.19.4
 
- * this mod is a showcase for create dynamic 2d rendering system
- * `BufferdImage` to `NativeImage` conversion
+ * Multiple carts supported (up to 64)
+ * Brightness of TV stays at maximum despite world time
+ * General usability improvements
 
 ## Requirements
 
- * minecraft 1.19.4
- * fabricmc
- * romz
-```shell
-$ mkdir $MINECRAFT_HOME/config/mcemu/roms/nes
-$ cp your_roms.nes ... $MINECRAFT_HOME/config/mcemu/roms/nes/
-```
+ * Minecraft 1.19.4
+ * fabricmc / fabric API
+ * legally owned NES Roms
 
-## TODO
+## Installation 
+ * Make sure Fabric API 1.19.4 is installed
+ * Install the jar file from release
+ * Run Minecraft once with the mod, it will create: $MINECRAFT_HOME/config/mcemu/roms/nes
+ * Exit Minecraft
+ * Add up to 64 roms within the folder above
+ * In creative inventory, you may find the TV, Console and carts in the "MCEmu NES Games" group.
 
- * ~~television entity renderer~~
- * ~~console block renderer~~
- * save nes resource when not viewing
- * multiple cartridges are not tested
- * using a new cartridge and reset does not work now
- * the nes emulator seems to run w/o wait
+
+
+## Usage
+* TODO
