@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+
 import deltatwoforce.mcemu.minecraft.CartridgeItem;
 import deltatwoforce.mcemu.minecraft.ConsoleBlock;
 import deltatwoforce.mcemu.minecraft.TelevisionBlock;
@@ -19,7 +22,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.item.BlockItem;
@@ -71,12 +73,27 @@ public class MCEmuMod implements ModInitializer {
 					MCEmuMod.P2NES_START, MCEmuMod.P2NES_UP, MCEmuMod.P2NES_DOWN,
 					MCEmuMod.P2NES_LEFT, MCEmuMod.P2NES_RIGHT, } };
     
-    public static final ConsoleBlock consoleBlock = new ConsoleBlock(FabricBlockSettings.of(Material.METAL).nonOpaque());
+    public static final ConsoleBlock consoleBlock = new ConsoleBlock(
+    FabricBlockSettings.create()
+        .mapColor(net.minecraft.block.MapColor.IRON_GRAY)
+        .strength(2.0f, 6.0f)
+        .requiresTool()
+        .nonOpaque()
+	);	//Fix for 1.20.1
+
 	// LESSON: w/o #nonOpaque() makes block super dark
-    public static final TelevisionBlock televisionBlock = new TelevisionBlock(FabricBlockSettings.of(Material.WOOD).nonOpaque());
+    public static final TelevisionBlock televisionBlock = new TelevisionBlock(
+    FabricBlockSettings.create()
+        .mapColor(net.minecraft.block.MapColor.OAK_TAN)
+        .strength(1.5f)
+        .nonOpaque()
+	); //Fix for 1.20.1
 
 	public static final BlockItem consoleItem = new BlockItem(consoleBlock, new FabricItemSettings());
 	public static final BlockItem televisionItem = new BlockItem(televisionBlock, new FabricItemSettings());
+
+	public static final Identifier NES_GROUP_ID = new Identifier(MODID, "nes");	//fixes for 1.20.1
+	public static final RegistryKey<ItemGroup> NES_GROUP_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, NES_GROUP_ID); //fixes for 1.20.1
 
 	public static ItemGroup tabNES;
 
@@ -88,15 +105,17 @@ public class MCEmuMod implements ModInitializer {
 	@Override
     public void onInitialize() {
 
-		tabNES = FabricItemGroup
-    			.builder(new Identifier(MODID, "nes"))
-    			.icon(() -> new ItemStack(consoleItem))
-    			.displayName(Text.translatable("itemGroup.mcemu.nes"))
-    			.entries((context, entries) -> {
-        			entries.add(consoleItem);
-        		entries.add(televisionItem);
-    			})
-    		.build();
+		ItemGroupEvents.modifyEntriesEvent(NES_GROUP_KEY).register(entries -> {
+    			entries.add(consoleItem);
+    			entries.add(televisionItem);
+		});
+
+		Registry.register(Registries.ITEM_GROUP, NES_GROUP_ID,
+    			FabricItemGroup.builder()
+        			.icon(() -> new ItemStack(consoleItem))
+        		.displayName(Text.translatable("itemGroup.mcemu.nes"))
+        			.build()
+		);
 
 		for (KeyBinding[] kbs : keyDef) {
 			for (KeyBinding kb : kbs) {
@@ -124,7 +143,8 @@ public class MCEmuMod implements ModInitializer {
     				Path f = romFiles.get(i);
     				String slotId = String.format("%02d", i + 1); // "01", "02", ..., "32"
     				CartridgeItem item = new CartridgeItem(new FabricItemSettings(), f, slotId);
-    				ItemGroupEvents.modifyEntriesEvent(tabNES).register(entries -> entries.add(item.getDefaultStack()));
+				ItemGroupEvents.modifyEntriesEvent(NES_GROUP_KEY).register(entries -> entries.add(item.getDefaultStack()));
+
     				Registry.register(Registries.ITEM, new Identifier(MODID, "cart" + slotId), item);
 			}
 		} catch (IOException e) {

@@ -10,6 +10,9 @@ NES emulator in Minecraft!
 
 ## Status
 
+Update v1.2 - 2025-06-15
+ * Support for Minecraft 1.20.1
+
 Updates for 1.19.4
 
  * Multiple carts supported (up to 64)
