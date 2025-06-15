@@ -1,3 +1,22 @@
+MCEmu - NES Emulator Mod for Minecraft
+
+Original Project Authors:
+- Delta2Force (https://github.com/Delta2Force)
+  - Creator of the original MCEmu Forge mod (1.12.2)
+- umjammer (https://github.com/umjammer)
+  - Ported MCEmu to Fabric and updated it for newer Minecraft versions
+
+Emulation Core:
+- bjne (https://github.com/tanakh/bjne)
+  - Open-source NES emulator core used in this project
+
+Current Maintainer and Updates:
+- maldog (https://github.com/maldog)
+  - Updates for Minecraft 1.19.4 and ongoing maintenance
+  - Enhancements to rendering, keybinding, save behavior, and cartridge handling
+
+*********** Original **************
+
 Minecraft Forge: Credits/Thank You
 
 Forge is a set of tools and modifications to the Minecraft base game code to assist 
