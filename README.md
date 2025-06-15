@@ -1,5 +1,5 @@
 [![Fabric](https://img.shields.io/badge/Mod_Loader-Fabric-blue)](https://fabricmc.net/)
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.19.4-green)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-green)](https://www.minecraft.net/)
 ![Java](https://img.shields.io/badge/Java-17-b07219)
 
 # MCEmu
@@ -44,6 +44,6 @@ Updates for 1.19.4
 ## Things that need doing
  * Sound. There is no sound.
  * Saving. There is no save support whatsoever. I think...
- * Upgrading to a newer version of Minecraft. 1.19.4 is pretty old in 2025
+ * Upgrading to a newer version of Minecraft.
 
 Special thanks for original authors Delta2Force for creating this initially, and umjammer for the update to 1.19.4.
