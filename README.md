@@ -22,13 +22,13 @@ Updates for 1.19.4
 
 ## Requirements
 
- * Minecraft 1.19.4
+ * Minecraft 1.20.1
  * fabricmc / fabric API
  * legally owned NES Roms
 
 ## Installation 
- * Make sure Fabric API 1.19.4 is installed
- * Install the jar file from release
+ * Make sure Fabric API jar file is installed to $MINECRAFT_HOME/mods 
+ * Install the jar file (the mod) from this current release to $MINECRAFT_HOME/mods
  * Run Minecraft once with the mod, it will create: $MINECRAFT_HOME/config/mcemu/roms/nes
  * Exit Minecraft
  * Add up to 64 roms within the folder above
