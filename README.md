@@ -42,3 +42,5 @@ Updates for 1.19.4
  * Sound. There is no sound.
  * Saving. There is no save support whatsoever. I think...
  * Upgrading to a newer version of Minecraft. 1.19.4 is pretty old in 2025
+
+Special thanks for original authors Delta2Force for creating this initially, and umjammer for the update to 1.19.4.
